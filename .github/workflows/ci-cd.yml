@@ -23,7 +23,7 @@ jobs:
       - name: Push Docker Image to Docker Hub
         run: |
           docker push prasadnarkhedkar/nextjs-wordgame:latest
-      
+
   deploy:
     needs: build
     runs-on: self-hosted
