@@ -33,7 +33,7 @@ jobs:
           docker pull prasadnarkhedkar/nextjs-wordgame:latest
       - name: Stop and Remove Docker Container
         run: |
-          docker stop nextjs-wordgame-container
+          docker stop nextjs-wordgame-container || true
           docker rm nextjs-wordgame-container || true
       - name: Run Docker Container
         run: |
