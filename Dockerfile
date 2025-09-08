@@ -49,7 +49,7 @@ EXPOSE 3000
 # Set environment variables
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
-ENV NODE_ENV=production
+ENV NODE_ENV=development
 
 # Start the application
 CMD ["node", "server.js"]
