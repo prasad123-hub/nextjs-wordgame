@@ -100,57 +100,6 @@ _An interactive Hangman word guessing game with user authentication, statistics 
 
 ---
 
-## 🏗️ Architecture & Data Flow
-
-### Application Flow Diagram
-
-```mermaid
-graph TB
-    A[User] --> B[Next.js Frontend]
-    B --> C[Authentication Layer]
-    C --> D[API Routes]
-    D --> E[MongoDB Atlas]
-
-    subgraph "Frontend Components"
-        F[Game Console]
-        G[User Stats]
-        H[Leaderboard]
-        I[Authentication Forms]
-    end
-
-    subgraph "State Management"
-        J[Zustand Store]
-        K[JWT Tokens]
-        L[Local Storage]
-    end
-
-    subgraph "API Endpoints"
-        M[/api/auth/*]
-        N[/api/game/*]
-        O[Authentication Middleware]
-    end
-
-    subgraph "Database Models"
-        P[User Model]
-        Q[Game Model]
-        R[Word Model]
-    end
-
-    B --> F
-    B --> G
-    B --> H
-    B --> I
-    B --> J
-    J --> K
-    J --> L
-    D --> M
-    D --> N
-    D --> O
-    E --> P
-    E --> Q
-    E --> R
-```
-
 ### Data Flow Process
 
 1. **User Authentication**
@@ -422,10 +371,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-**Made with ❤️ by [Your Name]**
+**Made with ❤️ by Prasad Narkhedkar**
 
-[![GitHub](https://img.shields.io/badge/GitHub-Profile-181717?style=for-the-badge&logo=github)](https://github.com/yourusername)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-0077B5?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/yourusername)
-[![Portfolio](https://img.shields.io/badge/Portfolio-Visit-FF6B6B?style=for-the-badge)](https://yourportfolio.com)
+[![GitHub](https://img.shields.io/badge/GitHub-Profile-181717?style=for-the-badge&logo=github)](https://github.com/prasad123-hub)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-0077B5?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/prasadnarkhedkar)
 
 </div>
