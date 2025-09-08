@@ -69,7 +69,8 @@ const userSchema = new Schema<IUser>(
     toJSON: {
       virtuals: true,
       transform: function (doc, ret) {
-        const { password, refreshToken, ...userWithoutSensitiveData } = ret;
+        // Remove sensitive fields from the response
+        const { password, refreshToken, ...userWithoutSensitiveData } = ret as any;
         return userWithoutSensitiveData;
       },
     },
@@ -98,7 +99,7 @@ userSchema.methods.generateAccessToken = function () {
     {
       _id: this._id,
       email: this.email,
-      name: this.name
+      name: this.name,
     },
     secret,
     { expiresIn: process.env.ACCESS_TOKEN_EXPIRY || '15m' } as jwt.SignOptions

@@ -79,8 +79,10 @@ export function SignupForm({
       setTimeout(() => {
         router.push('/');
       }, 2000);
-    } catch (err: any) {
-      toast.error(err.message || 'An error occurred during signup');
+    } catch (err: unknown) {
+      const errorMessage =
+        err instanceof Error ? err.message : 'An error occurred during signup';
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }

@@ -5,7 +5,7 @@ import connectDB from '@/server/db/mongodb';
 export async function POST(request: NextRequest) {
   try {
     await connectDB();
-    
+
     const { name, email, password } = await request.json();
 
     // Validation
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
 
     // Check if user already exists
     const existingUser = await User.findOne({
-      $or: [{ email }, { name }]
+      $or: [{ email }, { name }],
     });
 
     if (existingUser) {
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     const user = new User({
       name,
       email,
-      password
+      password,
     });
 
     await user.save();
@@ -54,8 +54,8 @@ export async function POST(request: NextRequest) {
           _id: user._id,
           name: user.name,
           email: user.email,
-          createdAt: user.createdAt
-        }
+          createdAt: user.createdAt,
+        },
       },
       { status: 201 }
     );
@@ -76,13 +76,23 @@ export async function POST(request: NextRequest) {
     });
 
     return response;
-
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Signup error:', error);
-    
+
     // Handle mongoose validation errors
-    if (error.name === 'ValidationError') {
-      const validationErrors = Object.values(error.errors).map((err: any) => err.message);
+    if (
+      error &&
+      typeof error === 'object' &&
+      'name' in error &&
+      error.name === 'ValidationError' &&
+      'errors' in error
+    ) {
+      const mongooseError = error as {
+        errors: Record<string, { message: string }>;
+      };
+      const validationErrors = Object.values(mongooseError.errors).map(
+        err => err.message
+      );
       return NextResponse.json(
         { error: 'Validation failed', details: validationErrors },
         { status: 400 }
@@ -90,8 +100,15 @@ export async function POST(request: NextRequest) {
     }
 
     // Handle duplicate key errors
-    if (error.code === 11000) {
-      const field = Object.keys(error.keyValue)[0];
+    if (
+      error &&
+      typeof error === 'object' &&
+      'code' in error &&
+      error.code === 11000 &&
+      'keyValue' in error
+    ) {
+      const duplicateError = error as { keyValue: Record<string, unknown> };
+      const field = Object.keys(duplicateError.keyValue)[0];
       return NextResponse.json(
         { error: `${field} already exists` },
         { status: 409 }

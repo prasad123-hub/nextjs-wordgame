@@ -15,7 +15,9 @@ if (!cached) {
 
 async function connectDB() {
   if (!MONGODB_URI) {
-    throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
+    throw new Error(
+      'Please define the MONGODB_URI environment variable inside .env.local'
+    );
   }
 
   if (cached?.conn) {
@@ -27,7 +29,7 @@ async function connectDB() {
       bufferCommands: false,
     };
 
-    cached!.promise = mongoose.connect(MONGODB_URI, opts) as any;
+    cached!.promise = mongoose.connect(MONGODB_URI, opts);
   }
 
   try {
@@ -44,8 +46,10 @@ export default connectDB;
 
 // Extend the global namespace to include mongoose
 declare global {
-  var mongoose: {
-    conn: typeof mongoose | null;
-    promise: Promise<typeof mongoose> | null;
-  } | undefined;
+  var mongoose:
+    | {
+        conn: typeof mongoose | null;
+        promise: any;
+      }
+    | undefined;
 }

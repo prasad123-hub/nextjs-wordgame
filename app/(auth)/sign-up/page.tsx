@@ -1,6 +1,7 @@
 import { Gamepad2Icon } from 'lucide-react';
 
 import { SignupForm } from '@/components/signup-form';
+import Image from 'next/image';
 
 export default function SignupPage() {
   return (
@@ -21,10 +22,11 @@ export default function SignupPage() {
         </div>
       </div>
       <div className="bg-muted relative hidden lg:block">
-        <img
+        <Image
           src="/login.png"
-          alt="Image"
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+          alt="Signup illustration"
+          fill
+          className="object-cover dark:brightness-[0.2] dark:grayscale"
         />
       </div>
     </div>
