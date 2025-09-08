@@ -12,7 +12,7 @@
 
 [![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Visit_Now-green?style=for-the-badge)](http://ec2-3-6-128-42.ap-south-1.compute.amazonaws.com:3000/sign-in)
 
-*An interactive Hangman word guessing game with user authentication, statistics tracking, and leaderboards*
+_An interactive Hangman word guessing game with user authentication, statistics tracking, and leaderboards_
 
 </div>
 
@@ -38,6 +38,7 @@
 **Hangman Word Game** is a modern, full-stack web application that brings the classic word-guessing game to life with a contemporary twist. Players can register, login, and enjoy an engaging word-guessing experience while tracking their performance through detailed statistics and competing on global leaderboards.
 
 ### 🎮 Game Mechanics
+
 - **Random Word Selection**: Fetches random words from a MongoDB database
 - **Progressive Difficulty**: Words range from 3-20 characters
 - **Hint System**: Two hints per word to assist players
@@ -45,6 +46,7 @@
 - **Game State Management**: Persistent game sessions with auto-save
 
 ### 📈 User Experience Features
+
 - **JWT Authentication**: Secure login/signup with access & refresh tokens
 - **Personal Statistics**: Comprehensive game analytics and performance metrics
 - **Global Leaderboard**: Top 5 players ranked by overall performance
@@ -56,40 +58,43 @@
 ## 🛠️ Tech Stack
 
 ### Frontend
+
 <div align="center">
 
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| ![Next.js](https://img.shields.io/badge/Next.js-15.5.2-black?style=flat-square&logo=next.js) | 15.5.2 | React framework with App Router |
-| ![React](https://img.shields.io/badge/React-19.1.0-blue?style=flat-square&logo=react) | 19.1.0 | UI library |
-| ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=flat-square&logo=typescript) | 5.0 | Type safety |
-| ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.0-38B2AC?style=flat-square&logo=tailwind-css) | 4.0 | Styling framework |
-| ![ShadcnUI](https://img.shields.io/badge/ShadcnUI-Components-000000?style=flat-square) | Latest | UI component library |
-| ![Zustand](https://img.shields.io/badge/Zustand-5.0.8-FF6B6B?style=flat-square) | 5.0.8 | State management |
+| Technology                                                                                              | Version | Purpose                         |
+| ------------------------------------------------------------------------------------------------------- | ------- | ------------------------------- |
+| ![Next.js](https://img.shields.io/badge/Next.js-15.5.2-black?style=flat-square&logo=next.js)            | 15.5.2  | React framework with App Router |
+| ![React](https://img.shields.io/badge/React-19.1.0-blue?style=flat-square&logo=react)                   | 19.1.0  | UI library                      |
+| ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=flat-square&logo=typescript)       | 5.0     | Type safety                     |
+| ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.0-38B2AC?style=flat-square&logo=tailwind-css) | 4.0     | Styling framework               |
+| ![ShadcnUI](https://img.shields.io/badge/ShadcnUI-Components-000000?style=flat-square)                  | Latest  | UI component library            |
+| ![Zustand](https://img.shields.io/badge/Zustand-5.0.8-FF6B6B?style=flat-square)                         | 5.0.8   | State management                |
 
 </div>
 
 ### Backend
+
 <div align="center">
 
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| ![Node.js](https://img.shields.io/badge/Node.js-20.x-green?style=flat-square&logo=node.js) | 20.x | Runtime environment |
-| ![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green?style=flat-square&logo=mongodb) | Atlas | Database |
-| ![Mongoose](https://img.shields.io/badge/Mongoose-8.18.0-47A248?style=flat-square) | 8.18.0 | ODM for MongoDB |
-| ![JWT](https://img.shields.io/badge/JWT-9.0.2-000000?style=flat-square) | 9.0.2 | Authentication |
-| ![Bcrypt](https://img.shields.io/badge/Bcrypt-6.0.0-FF6B6B?style=flat-square) | 6.0.0 | Password hashing |
+| Technology                                                                                  | Version | Purpose             |
+| ------------------------------------------------------------------------------------------- | ------- | ------------------- |
+| ![Node.js](https://img.shields.io/badge/Node.js-20.x-green?style=flat-square&logo=node.js)  | 20.x    | Runtime environment |
+| ![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green?style=flat-square&logo=mongodb) | Atlas   | Database            |
+| ![Mongoose](https://img.shields.io/badge/Mongoose-8.18.0-47A248?style=flat-square)          | 8.18.0  | ODM for MongoDB     |
+| ![JWT](https://img.shields.io/badge/JWT-9.0.2-000000?style=flat-square)                     | 9.0.2   | Authentication      |
+| ![Bcrypt](https://img.shields.io/badge/Bcrypt-6.0.0-FF6B6B?style=flat-square)               | 6.0.0   | Password hashing    |
 
 </div>
 
 ### DevOps & Deployment
+
 <div align="center">
 
-| Technology | Purpose |
-|------------|---------|
-| ![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?style=flat-square&logo=docker) | Containerization |
-| ![AWS EC2](https://img.shields.io/badge/AWS-EC2-FF9900?style=flat-square&logo=amazon-aws) | Cloud hosting |
-| ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI/CD-2088FF?style=flat-square&logo=github-actions) | CI/CD pipeline |
+| Technology                                                                                                        | Purpose          |
+| ----------------------------------------------------------------------------------------------------------------- | ---------------- |
+| ![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?style=flat-square&logo=docker)                 | Containerization |
+| ![AWS EC2](https://img.shields.io/badge/AWS-EC2-FF9900?style=flat-square&logo=amazon-aws)                         | Cloud hosting    |
+| ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI/CD-2088FF?style=flat-square&logo=github-actions) | CI/CD pipeline   |
 
 </div>
 
@@ -105,32 +110,32 @@ graph TB
     B --> C[Authentication Layer]
     C --> D[API Routes]
     D --> E[MongoDB Atlas]
-    
+
     subgraph "Frontend Components"
         F[Game Console]
         G[User Stats]
         H[Leaderboard]
         I[Authentication Forms]
     end
-    
+
     subgraph "State Management"
         J[Zustand Store]
         K[JWT Tokens]
         L[Local Storage]
     end
-    
+
     subgraph "API Endpoints"
         M[/api/auth/*]
         N[/api/game/*]
         O[Authentication Middleware]
     end
-    
+
     subgraph "Database Models"
         P[User Model]
         Q[Game Model]
         R[Word Model]
     end
-    
+
     B --> F
     B --> G
     B --> H
@@ -173,6 +178,7 @@ graph TB
 ## 🚀 Features
 
 ### 🎮 Core Game Features
+
 - ✅ **Random Word Generation** - Fetches words from database
 - ✅ **Progressive Difficulty** - Words from 3-20 characters
 - ✅ **Hint System** - Two hints per word
@@ -180,18 +186,21 @@ graph TB
 - ✅ **Game State Persistence** - Auto-save progress
 
 ### 👤 User Management
+
 - ✅ **Secure Registration** - Email validation & password hashing
 - ✅ **JWT Authentication** - Access & refresh token strategy
 - ✅ **Session Management** - Automatic token refresh
 - ✅ **Password Security** - Bcrypt hashing with salt
 
 ### 📊 Analytics & Social
+
 - ✅ **Personal Statistics** - Win rate, average guesses, etc.
 - ✅ **Game History** - Recent games tracking
 - ✅ **Global Leaderboard** - Top 5 players ranking
 - ✅ **Performance Metrics** - Detailed analytics
 
 ### 🎨 User Experience
+
 - ✅ **Responsive Design** - Mobile & desktop optimized
 - ✅ **Modern UI** - TailwindCSS + ShadcnUI
 - ✅ **Dark/Light Theme** - Theme switching support
@@ -203,6 +212,7 @@ graph TB
 ## 📦 Setup Instructions
 
 ### Prerequisites
+
 - Node.js 20.x or higher
 - pnpm package manager
 - MongoDB Atlas account
@@ -211,22 +221,26 @@ graph TB
 ### Development Setup
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/yourusername/nextjs-wordgame.git
    cd nextjs-wordgame
    ```
 
 2. **Install dependencies**
+
    ```bash
    pnpm install
    ```
 
 3. **Environment Configuration**
+
    ```bash
    cp env.example .env.local
    ```
-   
+
    Fill in your environment variables:
+
    ```env
    MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/wordgame
    ACCESS_TOKEN_SECRET=your-access-token-secret
@@ -237,6 +251,7 @@ graph TB
    ```
 
 4. **Start development server**
+
    ```bash
    pnpm dev
    ```
@@ -249,6 +264,7 @@ graph TB
 ### Production Setup
 
 1. **Build the application**
+
    ```bash
    pnpm build
    ```
@@ -261,6 +277,7 @@ graph TB
 ### Docker Setup
 
 1. **Build Docker image**
+
    ```bash
    docker build -t hangman-wordgame .
    ```
@@ -275,9 +292,11 @@ graph TB
 ## 🌐 Deployment
 
 ### Live Application
+
 🚀 **[Visit Live Demo](http://ec2-3-6-128-42.ap-south-1.compute.amazonaws.com:3000/sign-in)**
 
 ### Deployment Details
+
 - **Platform**: AWS EC2 Instance
 - **Region**: Asia Pacific (Mumbai) - ap-south-1
 - **Instance Type**: t3.micro
@@ -286,6 +305,7 @@ graph TB
 - **Domain**: Custom domain attached (propagation in progress)
 
 ### Deployment Process
+
 1. **Code Push** → GitHub Repository
 2. **CI/CD Pipeline** → GitHub Actions
 3. **Docker Build** → Container creation
@@ -297,21 +317,23 @@ graph TB
 ## 📊 API Endpoints
 
 ### Authentication Endpoints
-| Method | Endpoint | Description |
-|--------|----------|-------------|
+
+| Method | Endpoint            | Description       |
+| ------ | ------------------- | ----------------- |
 | `POST` | `/api/auth/sign-up` | User registration |
-| `POST` | `/api/auth/sign-in` | User login |
-| `POST` | `/api/auth/logout` | User logout |
-| `POST` | `/api/auth/refresh` | Token refresh |
-| `GET` | `/api/auth/me` | Get current user |
+| `POST` | `/api/auth/sign-in` | User login        |
+| `POST` | `/api/auth/logout`  | User logout       |
+| `POST` | `/api/auth/refresh` | Token refresh     |
+| `GET`  | `/api/auth/me`      | Get current user  |
 
 ### Game Endpoints
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/api/game/words` | Get random word |
-| `POST` | `/api/game/submit` | Submit game data |
-| `GET` | `/api/game/stats` | Get user statistics |
-| `GET` | `/api/game/leaderboard` | Get top 5 players |
+
+| Method | Endpoint                | Description         |
+| ------ | ----------------------- | ------------------- |
+| `GET`  | `/api/game/words`       | Get random word     |
+| `POST` | `/api/game/submit`      | Submit game data    |
+| `GET`  | `/api/game/stats`       | Get user statistics |
+| `GET`  | `/api/game/leaderboard` | Get top 5 players   |
 
 ---
 
@@ -338,6 +360,7 @@ NEXTAUTH_SECRET=your-nextauth-secret-key
 ## 📱 Screenshots
 
 ### 🔐 Authentication Pages
+
 <div align="center">
   <img src="public/login-page.png" alt="Login Page" width="400"/>
   <p><em>Modern login interface with clean design</em></p>
@@ -347,6 +370,7 @@ NEXTAUTH_SECRET=your-nextauth-secret-key
 </div>
 
 ### 🎮 Game Interface
+
 <div align="center">
   <img src="public/game-console.png" alt="Game Console" width="400"/>
   <p><em>Main game interface with word guessing</em></p>
@@ -359,6 +383,7 @@ NEXTAUTH_SECRET=your-nextauth-secret-key
 </div>
 
 ### 📊 Statistics & Leaderboard
+
 <div align="center">
   <img src="public/user-stats-screen.png" alt="User Statistics" width="400"/>
   <p><em>Detailed user statistics and performance metrics</em></p>
@@ -380,6 +405,7 @@ We welcome contributions! Please follow these steps:
 5. Open a Pull Request
 
 ### Development Guidelines
+
 - Follow TypeScript best practices
 - Use Prettier for code formatting
 - Write meaningful commit messages
