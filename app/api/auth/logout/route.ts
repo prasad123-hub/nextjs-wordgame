@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import User from '@/server/models/user.model';
 import connectDB from '@/server/db/mongodb';
+import { getClearCookieConfig } from '@/lib/cookie-utils';
 
 export const POST = async (request: NextRequest) => {
   try {
@@ -23,25 +24,10 @@ export const POST = async (request: NextRequest) => {
       { status: 200 }
     );
 
-    // Clear cookies with better EC2 compatibility
-    const isProduction = process.env.NODE_ENV === 'production';
-    const isSecure = isProduction && process.env.NODE_ENV !== 'development';
-
-    response.cookies.set('accessToken', '', {
-      httpOnly: true,
-      secure: isSecure,
-      sameSite: isProduction ? 'lax' : 'strict',
-      maxAge: 0, // Expire immediately
-      path: '/',
-    });
-
-    response.cookies.set('refreshToken', '', {
-      httpOnly: true,
-      secure: isSecure,
-      sameSite: isProduction ? 'lax' : 'strict',
-      maxAge: 0, // Expire immediately
-      path: '/',
-    });
+    // Clear cookies using centralized configuration
+    const clearConfig = getClearCookieConfig();
+    response.cookies.set('accessToken', '', clearConfig);
+    response.cookies.set('refreshToken', '', clearConfig);
 
     return response;
   } catch (error) {

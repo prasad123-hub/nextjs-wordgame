@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import User from '@/server/models/user.model';
 import connectDB from '@/server/db/mongodb';
+import { getCookieConfig, getClearCookieConfig } from '@/lib/cookie-utils';
 
 export const POST = async (request: NextRequest) => {
   try {
@@ -55,17 +56,9 @@ export const POST = async (request: NextRequest) => {
       { status: 200 }
     );
 
-    // Set new access token cookie with better EC2 compatibility
-    const isProduction = process.env.NODE_ENV === 'production';
-    const isSecure = isProduction && process.env.NODE_ENV !== 'development';
-
-    response.cookies.set('accessToken', newAccessToken, {
-      httpOnly: true,
-      secure: isSecure,
-      sameSite: isProduction ? 'lax' : 'strict',
-      maxAge: 15 * 60 * 1000, // 15 minutes
-      path: '/',
-    });
+    // Set new access token cookie using centralized configuration
+    const accessTokenConfig = getCookieConfig(15 * 60 * 1000); // 15 minutes
+    response.cookies.set('accessToken', newAccessToken, accessTokenConfig);
 
     return response;
   } catch (error) {
@@ -85,30 +78,15 @@ export const POST = async (request: NextRequest) => {
         );
       }
 
-      // Clear cookies
+      // Clear cookies using centralized configuration
       const response = NextResponse.json(
         { error: 'Invalid or expired refresh token' },
         { status: 401 }
       );
 
-      const isProduction = process.env.NODE_ENV === 'production';
-      const isSecure = isProduction && process.env.NODE_ENV !== 'development';
-
-      response.cookies.set('accessToken', '', {
-        httpOnly: true,
-        secure: isSecure,
-        sameSite: isProduction ? 'lax' : 'strict',
-        maxAge: 0,
-        path: '/',
-      });
-
-      response.cookies.set('refreshToken', '', {
-        httpOnly: true,
-        secure: isSecure,
-        sameSite: isProduction ? 'lax' : 'strict',
-        maxAge: 0,
-        path: '/',
-      });
+      const clearConfig = getClearCookieConfig();
+      response.cookies.set('accessToken', '', clearConfig);
+      response.cookies.set('refreshToken', '', clearConfig);
 
       return response;
     }

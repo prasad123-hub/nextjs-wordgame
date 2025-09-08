@@ -9,6 +9,7 @@ export interface CookieOptions {
   sameSite: 'strict' | 'lax' | 'none';
   maxAge: number;
   path: string;
+  domain?: string;
 }
 
 /**
@@ -17,7 +18,7 @@ export interface CookieOptions {
  */
 export function getCookieConfig(maxAge: number): CookieOptions {
   const isProduction = process.env.NODE_ENV === 'production';
-  const isSecure = isProduction && process.env.NODE_ENV !== 'development';
+  const isSecure = isProduction;
 
   return {
     httpOnly: true,
@@ -48,4 +49,15 @@ export function isSecureEnvironment(): boolean {
 export function getSameSitePolicy(): 'strict' | 'lax' | 'none' {
   const isProduction = process.env.NODE_ENV === 'production';
   return isProduction ? 'lax' : 'strict';
+}
+
+/**
+ * Get cookie configuration with domain support
+ */
+export function getCookieConfigWithDomain(maxAge: number, domain?: string): CookieOptions {
+  const config = getCookieConfig(maxAge);
+  if (domain) {
+    config.domain = domain;
+  }
+  return config;
 }
