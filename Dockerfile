@@ -16,6 +16,22 @@ RUN pnpm install --frozen-lockfile
 # Copy source code
 COPY . .
 
+# Accept build arguments
+ARG MONGODB_URI
+ARG ACCESS_TOKEN_SECRET
+ARG REFRESH_TOKEN_SECRET
+ARG ACCESS_TOKEN_EXPIRY=15m
+ARG REFRESH_TOKEN_EXPIRY=7d
+ARG NODE_ENV=production
+
+# Set build-time environment variables from build args
+ENV MONGODB_URI=$MONGODB_URI
+ENV ACCESS_TOKEN_SECRET=$ACCESS_TOKEN_SECRET
+ENV REFRESH_TOKEN_SECRET=$REFRESH_TOKEN_SECRET
+ENV ACCESS_TOKEN_EXPIRY=$ACCESS_TOKEN_EXPIRY
+ENV REFRESH_TOKEN_EXPIRY=$REFRESH_TOKEN_EXPIRY
+ENV NODE_ENV=$NODE_ENV
+
 # Build the application
 RUN pnpm build
 
@@ -44,8 +60,9 @@ USER nextjs
 EXPOSE 3000
 
 # Set environment variables
-ENV PORT 3000
-ENV HOSTNAME "0.0.0.0"
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+ENV NODE_ENV=production
 
 # Start the application
 CMD ["node", "server.js"]
