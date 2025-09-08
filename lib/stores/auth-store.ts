@@ -99,7 +99,10 @@ export const useAuthStore = create<AuthStore>()(
           });
 
           console.log(`refreshToken: Response status = ${response.status}`);
-          console.log(`refreshToken: Response headers =`, Object.fromEntries(response.headers.entries()));
+          console.log(
+            `refreshToken: Response headers =`,
+            Object.fromEntries(response.headers.entries())
+          );
 
           if (response.ok) {
             const data = await response.json();
@@ -112,7 +115,10 @@ export const useAuthStore = create<AuthStore>()(
             return true;
           } else {
             const errorText = await response.text();
-            console.error(`refreshToken: Refresh failed with status ${response.status}:`, errorText);
+            console.error(
+              `refreshToken: Refresh failed with status ${response.status}:`,
+              errorText
+            );
             // Refresh failed, logout user
             await useAuthStore.getState().logout();
             return false;
