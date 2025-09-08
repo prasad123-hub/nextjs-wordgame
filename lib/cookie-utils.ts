@@ -54,7 +54,10 @@ export function getSameSitePolicy(): 'strict' | 'lax' | 'none' {
 /**
  * Get cookie configuration with domain support
  */
-export function getCookieConfigWithDomain(maxAge: number, domain?: string): CookieOptions {
+export function getCookieConfigWithDomain(
+  maxAge: number,
+  domain?: string
+): CookieOptions {
   const config = getCookieConfig(maxAge);
   if (domain) {
     config.domain = domain;
