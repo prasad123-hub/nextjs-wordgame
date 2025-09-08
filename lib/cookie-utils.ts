@@ -4,12 +4,8 @@
  */
 
 export interface CookieOptions {
-  httpOnly: boolean;
-  secure: boolean;
-  sameSite: 'strict' | 'lax' | 'none';
   maxAge: number;
   path: string;
-  domain?: string;
 }
 
 /**
@@ -21,9 +17,6 @@ export function getCookieConfig(maxAge: number): CookieOptions {
   const isSecure = isProduction;
 
   return {
-    httpOnly: true,
-    secure: isSecure,
-    sameSite: isProduction ? 'lax' : 'strict',
     maxAge,
     path: '/',
   };
@@ -59,8 +52,5 @@ export function getCookieConfigWithDomain(
   domain?: string
 ): CookieOptions {
   const config = getCookieConfig(maxAge);
-  if (domain) {
-    config.domain = domain;
-  }
   return config;
 }
