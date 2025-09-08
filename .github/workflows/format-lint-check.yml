@@ -1,0 +1,40 @@
+name: Format and Lint Check
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  format-lint-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+          
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+          
+      - name: Install Dependencies
+        run: pnpm install
+        
+      - name: Check Code Formatting
+        run: pnpm format:check
+        
+      - name: Run Linting
+        run: pnpm lint
+        
+      - name: Check TypeScript Types
+        run: pnpm build
