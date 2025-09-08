@@ -58,7 +58,7 @@ export const POST = async (request: NextRequest) => {
     // Set new access token cookie with better EC2 compatibility
     const isProduction = process.env.NODE_ENV === 'production';
     const isSecure = isProduction && process.env.NODE_ENV !== 'development';
-    
+
     response.cookies.set('accessToken', newAccessToken, {
       httpOnly: true,
       secure: isSecure,
@@ -93,7 +93,7 @@ export const POST = async (request: NextRequest) => {
 
       const isProduction = process.env.NODE_ENV === 'production';
       const isSecure = isProduction && process.env.NODE_ENV !== 'development';
-      
+
       response.cookies.set('accessToken', '', {
         httpOnly: true,
         secure: isSecure,

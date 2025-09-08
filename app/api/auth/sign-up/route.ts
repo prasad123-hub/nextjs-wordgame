@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
     // Set cookies with better EC2 compatibility
     const isProduction = process.env.NODE_ENV === 'production';
     const isSecure = isProduction && process.env.NODE_ENV !== 'development';
-    
+
     response.cookies.set('accessToken', accessToken, {
       httpOnly: true,
       secure: isSecure,

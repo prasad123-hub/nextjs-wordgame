@@ -18,7 +18,7 @@ export interface CookieOptions {
 export function getCookieConfig(maxAge: number): CookieOptions {
   const isProduction = process.env.NODE_ENV === 'production';
   const isSecure = isProduction && process.env.NODE_ENV !== 'development';
-  
+
   return {
     httpOnly: true,
     secure: isSecure,
@@ -39,7 +39,7 @@ export function getClearCookieConfig(): CookieOptions {
  * Check if we're in a production environment that requires HTTPS
  */
 export function isSecureEnvironment(): boolean {
-  return process.env.NODE_ENV === 'production' && process.env.NODE_ENV !== 'development';
+  return process.env.NODE_ENV === 'production';
 }
 
 /**
