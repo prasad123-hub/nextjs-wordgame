@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { PasswordInput } from './ui/password-input';
+import { useAuthStore } from '@/lib/stores/auth-store';
 
 export function SignupForm({
   className,
@@ -20,10 +21,11 @@ export function SignupForm({
     password: '',
     confirmPassword: '',
   });
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const router = useRouter();
+
+  // Zustand store
+  const { login, setLoading, setError, isLoading, error } = useAuthStore();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -32,25 +34,25 @@ export function SignupForm({
       [id]: value,
     }));
     // Clear error when user starts typing
-    if (error) setError('');
+    if (error) setError(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    setError('');
+    setLoading(true);
+    setError(null);
 
     // Validate passwords match
     if (formData.password !== formData.confirmPassword) {
       toast.error('Passwords do not match');
-      setIsLoading(false);
+      setLoading(false);
       return;
     }
 
     // Validate password length
     if (formData.password.length < 6) {
       toast.error('Password must be at least 6 characters long');
-      setIsLoading(false);
+      setLoading(false);
       return;
     }
 
@@ -70,11 +72,16 @@ export function SignupForm({
       const data = await response.json();
 
       if (!response.ok) {
-        toast.error(data.error || 'Signup failed');
+        const errorMessage = data.error || 'Signup failed';
+        setError(errorMessage);
+        toast.error(errorMessage);
         return;
       }
 
+      // Update Zustand store with user data
+      login(data.user);
       setSuccess(true);
+      toast.success('Account Created! Redirecting you to the game...');
       // Redirect to home page after successful signup
       setTimeout(() => {
         router.push('/');
@@ -82,21 +89,15 @@ export function SignupForm({
     } catch (err: unknown) {
       const errorMessage =
         err instanceof Error ? err.message : 'An error occurred during signup';
+      setError(errorMessage);
       toast.error(errorMessage);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
   if (error) {
     toast.error(error);
-  }
-
-  if (success) {
-    toast.success('Account Created! Redirecting you to the game...');
-    setTimeout(() => {
-      router.push('/');
-    }, 2000);
   }
 
   return (
