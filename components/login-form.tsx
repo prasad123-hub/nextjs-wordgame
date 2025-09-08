@@ -28,7 +28,7 @@ export function LoginForm({
   const router = useRouter();
 
   // Zustand store
-  const { login, setLoading, setError, isLoading, error } = useAuthStore();
+  const { login, setLoading, setError, isLoading } = useAuthStore();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

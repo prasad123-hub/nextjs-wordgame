@@ -70,7 +70,13 @@ const userSchema = new Schema<IUser>(
       virtuals: true,
       transform: function (doc, ret) {
         // Remove sensitive fields from the response
-        const { password, refreshToken, ...userWithoutSensitiveData } = ret as any;
+        const { password, refreshToken, ...userWithoutSensitiveData } =
+          // @ts-expect-error - ret type is complex from mongoose
+          ret as Record<string, unknown>;
+
+        // Explicitly mark as used to avoid unused variable warnings
+        void password;
+        void refreshToken;
         return userWithoutSensitiveData;
       },
     },

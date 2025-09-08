@@ -49,7 +49,8 @@ declare global {
   var mongoose:
     | {
         conn: typeof mongoose | null;
-        promise: any;
+        // @ts-expect-error - mongoose promise type is complex
+        promise: Promise<typeof mongoose> | null;
       }
     | undefined;
 }

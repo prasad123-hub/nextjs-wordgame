@@ -28,7 +28,7 @@ type AuthStore = AuthState & AuthActions;
 
 export const useAuthStore = create<AuthStore>()(
   persist(
-    (set, get) => ({
+    set => ({
       // Initial state
       user: null,
       isAuthenticated: false,
@@ -36,7 +36,7 @@ export const useAuthStore = create<AuthStore>()(
       error: null,
 
       // Actions
-      setUser: (user) => {
+      setUser: user => {
         set({
           user,
           isAuthenticated: !!user,
@@ -44,15 +44,15 @@ export const useAuthStore = create<AuthStore>()(
         });
       },
 
-      setLoading: (loading) => {
+      setLoading: loading => {
         set({ isLoading: loading });
       },
 
-      setError: (error) => {
+      setError: error => {
         set({ error });
       },
 
-      login: (user) => {
+      login: user => {
         set({
           user,
           isAuthenticated: true,
@@ -89,7 +89,7 @@ export const useAuthStore = create<AuthStore>()(
       name: 'auth-storage', // unique name for localStorage key
       storage: createJSONStorage(() => localStorage),
       // Only persist user and isAuthenticated, not loading states or errors
-      partialize: (state) => ({
+      partialize: state => ({
         user: state.user,
         isAuthenticated: state.isAuthenticated,
       }),
@@ -98,7 +98,8 @@ export const useAuthStore = create<AuthStore>()(
 );
 
 // Selectors for better performance
-export const useUser = () => useAuthStore((state) => state.user);
-export const useIsAuthenticated = () => useAuthStore((state) => state.isAuthenticated);
-export const useAuthLoading = () => useAuthStore((state) => state.isLoading);
-export const useAuthError = () => useAuthStore((state) => state.error);
+export const useUser = () => useAuthStore(state => state.user);
+export const useIsAuthenticated = () =>
+  useAuthStore(state => state.isAuthenticated);
+export const useAuthLoading = () => useAuthStore(state => state.isLoading);
+export const useAuthError = () => useAuthStore(state => state.error);

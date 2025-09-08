@@ -5,10 +5,10 @@ import connectDB from '@/server/db/mongodb';
 export const POST = async (request: NextRequest) => {
   try {
     await connectDB();
-    
+
     // Get the refresh token from cookies
     const refreshToken = request.cookies.get('refreshToken')?.value;
-    
+
     if (refreshToken) {
       // Find user with this refresh token and clear it
       await User.findOneAndUpdate(

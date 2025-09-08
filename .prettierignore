@@ -12,3 +12,4 @@ coverage
 .parcel-cache
 .next
 .turbo
+pnpm-lock.yaml

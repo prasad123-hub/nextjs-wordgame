@@ -21,7 +21,6 @@ export function SignupForm({
     password: '',
     confirmPassword: '',
   });
-  const [success, setSuccess] = useState(false);
   const router = useRouter();
 
   // Zustand store
@@ -80,7 +79,6 @@ export function SignupForm({
 
       // Update Zustand store with user data
       login(data.user);
-      setSuccess(true);
       toast.success('Account Created! Redirecting you to the game...');
       // Redirect to home page after successful signup
       setTimeout(() => {
