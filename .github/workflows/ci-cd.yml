@@ -2,7 +2,7 @@ name: Deploy Next.js App
 
 on:
   workflow_run:
-    workflows: ["Format and Lint Check"]
+    workflows: ['Format and Lint Check']
     types: [completed]
     branches: [main]
 

@@ -13,7 +13,7 @@ export interface CookieOptions {
  * Handles EC2 deployment scenarios better
  */
 export function getCookieConfig(maxAge: number): CookieOptions {
-  const isProduction = process.env.NODE_ENV === 'production';
+  // const isProduction = process.env.NODE_ENV === 'production';
   // const isSecure = isProduction;
 
   return {
@@ -47,10 +47,7 @@ export function getSameSitePolicy(): 'strict' | 'lax' | 'none' {
 /**
  * Get cookie configuration with domain support
  */
-export function getCookieConfigWithDomain(
-  maxAge: number,
-  domain?: string
-): CookieOptions {
+export function getCookieConfigWithDomain(maxAge: number): CookieOptions {
   const config = getCookieConfig(maxAge);
   return config;
 }
