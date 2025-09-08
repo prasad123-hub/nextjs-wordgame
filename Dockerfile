@@ -17,7 +17,7 @@ RUN pnpm install --frozen-lockfile
 COPY . .
 
 # Set build-time environment variables (non-sensitive)
-ENV NODE_ENV=development
+ENV NODE_ENV=production
 
 # Build the application
 RUN pnpm build
@@ -49,7 +49,7 @@ EXPOSE 3000
 # Set environment variables
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
-ENV NODE_ENV=development
+ENV NODE_ENV=production
 
 # Start the application
 CMD ["node", "server.js"]
