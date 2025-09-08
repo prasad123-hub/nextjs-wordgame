@@ -1,5 +1,3 @@
-import { Gamepad2Icon } from 'lucide-react';
-
 import { SignupForm } from '@/components/signup-form';
 import Image from 'next/image';
 
@@ -9,10 +7,10 @@ export default function SignupPage() {
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex justify-center gap-2 md:justify-start">
           <a href="#" className="flex items-center gap-2 font-medium">
-            <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
-              <Gamepad2Icon className="size-4" />
+            <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-sm">W</span>
             </div>
-            Hangman Game
+            <span className="text-xl font-bold text-gray-900">WordGame</span>
           </a>
         </div>
         <div className="flex flex-1 items-center justify-center">

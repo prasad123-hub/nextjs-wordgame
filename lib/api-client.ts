@@ -59,6 +59,38 @@ export async function submitGame(gameData: {
 }
 
 /**
+ * Fetch user game statistics
+ */
+export async function fetchUserStats() {
+  const response = await apiClient('/api/game/stats', {
+    method: 'GET',
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || 'Failed to fetch user stats');
+  }
+
+  return response.json();
+}
+
+/**
+ * Fetch leaderboard data
+ */
+export async function fetchLeaderboard() {
+  const response = await apiClient('/api/game/leaderboard', {
+    method: 'GET',
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || 'Failed to fetch leaderboard');
+  }
+
+  return response.json();
+}
+
+/**
  * Hook to use the API client in React components
  */
 export function useApiClient() {
