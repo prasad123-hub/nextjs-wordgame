@@ -32,6 +32,33 @@ export async function apiClient(
 }
 
 /**
+ * Submit game results to the server
+ */
+export async function submitGame(gameData: {
+  word: string;
+  wordLength: number;
+  guessedLetters: string[];
+  gameStatus: 'won' | 'lost';
+  wrongGuesses: number;
+  hintsUsed: number;
+}) {
+  const response = await apiClient('/api/game/submit', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(gameData),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || 'Failed to submit game');
+  }
+
+  return response.json();
+}
+
+/**
  * Hook to use the API client in React components
  */
 export function useApiClient() {

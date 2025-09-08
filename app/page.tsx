@@ -1,13 +1,31 @@
 'use client';
 
-import { useIsAuthenticated, useAuthLoading } from '@/lib/stores/auth-store';
+import {
+  useIsAuthenticated,
+  useAuthLoading,
+  useIsHydrated,
+} from '@/lib/stores/auth-store';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function Home() {
   const isAuthenticated = useIsAuthenticated();
   const isLoading = useAuthLoading();
+  const isHydrated = useIsHydrated();
   const router = useRouter();
-  if (isLoading) {
+
+  useEffect(() => {
+    // Only make routing decisions after store is hydrated and auth check is complete
+    if (isHydrated && !isLoading) {
+      if (!isAuthenticated) {
+        router.push('/sign-in');
+      } else {
+        router.push('/game');
+      }
+    }
+  }, [isAuthenticated, isLoading, isHydrated, router]);
+
+  if (!isHydrated || isLoading) {
     return (
       <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
         <main className="flex flex-col gap-[32px] row-start-2 items-center">
@@ -16,12 +34,6 @@ export default function Home() {
         </main>
       </div>
     );
-  }
-
-  if (!isAuthenticated) {
-    router.push('/sign-in');
-  } else {
-    router.push('/game');
   }
 
   return null;

@@ -13,6 +13,7 @@ interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
+  isHydrated: boolean;
 }
 
 interface AuthActions {
@@ -24,6 +25,7 @@ interface AuthActions {
   clearError: () => void;
   refreshToken: () => Promise<boolean>;
   checkAuth: () => Promise<void>;
+  setHydrated: (hydrated: boolean) => void;
 }
 
 type AuthStore = AuthState & AuthActions;
@@ -36,6 +38,7 @@ export const useAuthStore = create<AuthStore>()(
       isAuthenticated: false,
       isLoading: false,
       error: null,
+      isHydrated: false,
 
       // Actions
       setUser: user => {
@@ -159,6 +162,10 @@ export const useAuthStore = create<AuthStore>()(
           });
         }
       },
+
+      setHydrated: (hydrated: boolean) => {
+        set({ isHydrated: hydrated });
+      },
     }),
     {
       name: 'auth-storage', // unique name for localStorage key
@@ -168,6 +175,9 @@ export const useAuthStore = create<AuthStore>()(
         user: state.user,
         isAuthenticated: state.isAuthenticated,
       }),
+      onRehydrateStorage: () => state => {
+        state?.setHydrated(true);
+      },
     }
   )
 );
@@ -178,3 +188,4 @@ export const useIsAuthenticated = () =>
   useAuthStore(state => state.isAuthenticated);
 export const useAuthLoading = () => useAuthStore(state => state.isLoading);
 export const useAuthError = () => useAuthStore(state => state.error);
+export const useIsHydrated = () => useAuthStore(state => state.isHydrated);
