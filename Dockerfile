@@ -17,7 +17,7 @@ RUN pnpm install --frozen-lockfile
 COPY . .
 
 # Set build-time environment variables (non-sensitive)
-ENV NODE_ENV=production
+ENV NODE_ENV=development
 
 # Build the application
 RUN pnpm build
