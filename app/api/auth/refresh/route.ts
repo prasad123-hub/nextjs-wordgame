@@ -55,12 +55,16 @@ export const POST = async (request: NextRequest) => {
       { status: 200 }
     );
 
-    // Set new access token cookie
+    // Set new access token cookie with better EC2 compatibility
+    const isProduction = process.env.NODE_ENV === 'production';
+    const isSecure = isProduction && process.env.NODE_ENV !== 'development';
+    
     response.cookies.set('accessToken', newAccessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      secure: isSecure,
+      sameSite: isProduction ? 'lax' : 'strict',
       maxAge: 15 * 60 * 1000, // 15 minutes
+      path: '/',
     });
 
     return response;
@@ -87,18 +91,23 @@ export const POST = async (request: NextRequest) => {
         { status: 401 }
       );
 
+      const isProduction = process.env.NODE_ENV === 'production';
+      const isSecure = isProduction && process.env.NODE_ENV !== 'development';
+      
       response.cookies.set('accessToken', '', {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
+        secure: isSecure,
+        sameSite: isProduction ? 'lax' : 'strict',
         maxAge: 0,
+        path: '/',
       });
 
       response.cookies.set('refreshToken', '', {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
+        secure: isSecure,
+        sameSite: isProduction ? 'lax' : 'strict',
         maxAge: 0,
+        path: '/',
       });
 
       return response;

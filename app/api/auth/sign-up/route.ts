@@ -60,19 +60,26 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
 
-    // Set cookies
+    // Set cookies with better EC2 compatibility
+    const isProduction = process.env.NODE_ENV === 'production';
+    const isSecure = isProduction && process.env.NODE_ENV !== 'development';
+    
     response.cookies.set('accessToken', accessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      secure: isSecure,
+      sameSite: isProduction ? 'lax' : 'strict',
       maxAge: 15 * 60 * 1000, // 15 minutes
+      path: '/',
+      // Don't set domain in production to allow subdomain access
     });
 
     response.cookies.set('refreshToken', refreshToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      secure: isSecure,
+      sameSite: isProduction ? 'lax' : 'strict',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      path: '/',
+      // Don't set domain in production to allow subdomain access
     });
 
     return response;

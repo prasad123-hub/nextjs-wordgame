@@ -123,6 +123,9 @@ export const useAuthStore = create<AuthStore>()(
         try {
           const response = await fetch('/api/auth/me', {
             credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
           });
 
           if (response.ok) {
@@ -135,6 +138,7 @@ export const useAuthStore = create<AuthStore>()(
             });
           } else if (response.status === 401) {
             // Token expired, try to refresh
+            console.log('Access token expired, attempting refresh...');
             const refreshSuccess = await useAuthStore.getState().refreshToken();
             if (!refreshSuccess) {
               set({
@@ -145,6 +149,7 @@ export const useAuthStore = create<AuthStore>()(
               });
             }
           } else {
+            console.error('Auth check failed with status:', response.status);
             set({
               user: null,
               isAuthenticated: false,
@@ -157,7 +162,7 @@ export const useAuthStore = create<AuthStore>()(
           set({
             user: null,
             isAuthenticated: false,
-            error: 'Authentication failed',
+            error: 'Network error. Please check your connection.',
             isLoading: false,
           });
         }
