@@ -22,6 +22,8 @@ interface AuthActions {
   login: (user: User) => void;
   logout: () => Promise<void>;
   clearError: () => void;
+  refreshToken: () => Promise<boolean>;
+  checkAuth: () => Promise<void>;
 }
 
 type AuthStore = AuthState & AuthActions;
@@ -83,6 +85,79 @@ export const useAuthStore = create<AuthStore>()(
 
       clearError: () => {
         set({ error: null });
+      },
+
+      refreshToken: async () => {
+        try {
+          const response = await fetch('/api/auth/refresh', {
+            method: 'POST',
+            credentials: 'include',
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            set({
+              user: data.user,
+              isAuthenticated: true,
+              error: null,
+            });
+            return true;
+          } else {
+            // Refresh failed, logout user
+            await useAuthStore.getState().logout();
+            return false;
+          }
+        } catch (error) {
+          console.error('Token refresh failed:', error);
+          await useAuthStore.getState().logout();
+          return false;
+        }
+      },
+
+      checkAuth: async () => {
+        set({ isLoading: true, error: null });
+
+        try {
+          const response = await fetch('/api/auth/me', {
+            credentials: 'include',
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            set({
+              user: data.user,
+              isAuthenticated: true,
+              error: null,
+              isLoading: false,
+            });
+          } else if (response.status === 401) {
+            // Token expired, try to refresh
+            const refreshSuccess = await useAuthStore.getState().refreshToken();
+            if (!refreshSuccess) {
+              set({
+                user: null,
+                isAuthenticated: false,
+                error: 'Session expired. Please log in again.',
+                isLoading: false,
+              });
+            }
+          } else {
+            set({
+              user: null,
+              isAuthenticated: false,
+              error: 'Authentication failed',
+              isLoading: false,
+            });
+          }
+        } catch (error) {
+          console.error('Auth check failed:', error);
+          set({
+            user: null,
+            isAuthenticated: false,
+            error: 'Authentication failed',
+            isLoading: false,
+          });
+        }
       },
     }),
     {
