@@ -7,6 +7,7 @@ import { WordConsole } from '@/components/word-console';
 import { Keyboard } from '@/components/keyboard';
 import { Hints, HintsRef } from '@/components/hints';
 import { submitGame, apiClient } from '@/lib/api-client';
+import { useAuthStore } from '@/lib/stores/auth-store';
 import { toast } from 'sonner';
 
 export type GameState = 'playing' | 'won' | 'lost';
@@ -21,6 +22,9 @@ export function GameConsole() {
     hint2: '',
   });
   const hintsRef = useRef<HintsRef>(null);
+
+  // Get auth state for dependency tracking
+  const { isAuthenticated, isLoading } = useAuthStore();
 
   const MAX_WRONG_GUESSES = 6;
 
@@ -50,11 +54,22 @@ export function GameConsole() {
   // Initialize new game
   const initNewGame = useCallback(async () => {
     try {
+      console.log('Initializing new game...');
+      console.log('Auth state:', useAuthStore.getState());
+
       const response = await apiClient('/api/game/words', {
         method: 'GET',
       });
 
+      console.log('Words API response status:', response.status);
+      console.log(
+        'Words API response headers:',
+        Object.fromEntries(response.headers.entries())
+      );
+
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Words API error response:', errorText);
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
@@ -79,10 +94,25 @@ export function GameConsole() {
     }
   }, []);
 
-  // Initialize game on mount
+  // Initialize game on mount - but only after auth is confirmed
   useEffect(() => {
-    initNewGame();
-  }, [initNewGame]);
+    console.log(
+      'GameConsole useEffect: isAuthenticated =',
+      isAuthenticated,
+      'isLoading =',
+      isLoading
+    );
+
+    // Only initialize game if we're authenticated and not loading
+    if (isAuthenticated && !isLoading) {
+      console.log('GameConsole: Starting game initialization...');
+      initNewGame();
+    } else {
+      console.log(
+        'GameConsole: Skipping game initialization - not authenticated or still loading'
+      );
+    }
+  }, [initNewGame, isAuthenticated, isLoading]);
 
   // Check win/lose conditions
   useEffect(() => {

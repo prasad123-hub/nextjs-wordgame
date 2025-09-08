@@ -9,22 +9,31 @@ export async function apiClient(
 ): Promise<Response> {
   const { isAuthenticated, refreshToken } = useAuthStore.getState();
 
+  console.log(`apiClient: Making request to ${url}`);
+  console.log(`apiClient: isAuthenticated = ${isAuthenticated}`);
+
   // Make the initial request
   let response = await fetch(url, {
     ...options,
     credentials: 'include',
   });
 
+  console.log(`apiClient: Initial response status = ${response.status}`);
+
   // If we get a 401 and user is authenticated, try to refresh
   if (response.status === 401 && isAuthenticated) {
+    console.log('apiClient: Got 401, attempting token refresh...');
     const refreshSuccess = await refreshToken();
+    console.log(`apiClient: Token refresh success = ${refreshSuccess}`);
 
     if (refreshSuccess) {
+      console.log('apiClient: Retrying original request with new token...');
       // Retry the original request with the new token
       response = await fetch(url, {
         ...options,
         credentials: 'include',
       });
+      console.log(`apiClient: Retry response status = ${response.status}`);
     }
   }
 

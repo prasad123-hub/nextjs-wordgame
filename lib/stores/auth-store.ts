@@ -92,13 +92,18 @@ export const useAuthStore = create<AuthStore>()(
 
       refreshToken: async () => {
         try {
+          console.log('refreshToken: Attempting to refresh token...');
           const response = await fetch('/api/auth/refresh', {
             method: 'POST',
             credentials: 'include',
           });
 
+          console.log(`refreshToken: Response status = ${response.status}`);
+          console.log(`refreshToken: Response headers =`, Object.fromEntries(response.headers.entries()));
+
           if (response.ok) {
             const data = await response.json();
+            console.log('refreshToken: Token refresh successful');
             set({
               user: data.user,
               isAuthenticated: true,
@@ -106,12 +111,14 @@ export const useAuthStore = create<AuthStore>()(
             });
             return true;
           } else {
+            const errorText = await response.text();
+            console.error(`refreshToken: Refresh failed with status ${response.status}:`, errorText);
             // Refresh failed, logout user
             await useAuthStore.getState().logout();
             return false;
           }
         } catch (error) {
-          console.error('Token refresh failed:', error);
+          console.error('refreshToken: Token refresh failed:', error);
           await useAuthStore.getState().logout();
           return false;
         }
