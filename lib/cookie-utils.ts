@@ -14,7 +14,7 @@ export interface CookieOptions {
  */
 export function getCookieConfig(maxAge: number): CookieOptions {
   const isProduction = process.env.NODE_ENV === 'production';
-  const isSecure = isProduction;
+  // const isSecure = isProduction;
 
   return {
     maxAge,
