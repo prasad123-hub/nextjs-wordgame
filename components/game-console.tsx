@@ -6,7 +6,7 @@ import { HangmanAnimation } from '@/components/hangman-animation';
 import { WordConsole } from '@/components/word-console';
 import { Keyboard } from '@/components/keyboard';
 import { Hints, HintsRef } from '@/components/hints';
-import { submitGame } from '@/lib/api-client';
+import { submitGame, apiClient } from '@/lib/api-client';
 import { toast } from 'sonner';
 
 export type GameState = 'playing' | 'won' | 'lost';
@@ -50,8 +50,8 @@ export function GameConsole() {
   // Initialize new game
   const initNewGame = useCallback(async () => {
     try {
-      const response = await fetch('/api/game/words', {
-        credentials: 'include',
+      const response = await apiClient('/api/game/words', {
+        method: 'GET',
       });
 
       if (!response.ok) {
