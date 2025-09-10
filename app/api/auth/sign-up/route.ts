@@ -69,22 +69,13 @@ export async function POST(request: NextRequest) {
     response.cookies.set('refreshToken', refreshToken, refreshTokenConfig);
 
     return response;
-  } catch (error: unknown) {
+  } catch (error: any) {
     console.error('Signup error:', error);
 
     // Handle mongoose validation errors
-    if (
-      error &&
-      typeof error === 'object' &&
-      'name' in error &&
-      error.name === 'ValidationError' &&
-      'errors' in error
-    ) {
-      const mongooseError = error as {
-        errors: Record<string, { message: string }>;
-      };
-      const validationErrors = Object.values(mongooseError.errors).map(
-        err => err.message
+    if (error?.name === 'ValidationError') {
+      const validationErrors = Object.values(error.errors).map(
+        (err: any) => err.message
       );
       return NextResponse.json(
         { error: 'Validation failed', details: validationErrors },
@@ -93,15 +84,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Handle duplicate key errors
-    if (
-      error &&
-      typeof error === 'object' &&
-      'code' in error &&
-      error.code === 11000 &&
-      'keyValue' in error
-    ) {
-      const duplicateError = error as { keyValue: Record<string, unknown> };
-      const field = Object.keys(duplicateError.keyValue)[0];
+    if (error?.code === 11000) {
+      const field = Object.keys(error.keyValue || {})[0] || 'field';
       return NextResponse.json(
         { error: `${field} already exists` },
         { status: 409 }

@@ -115,22 +115,48 @@ export const useAuthStore = create<AuthStore>()(
             return true;
           } else {
             const errorText = await response.text();
-            console.error(
+            console.log(
               `refreshToken: Refresh failed with status ${response.status}:`,
               errorText
             );
-            // Refresh failed, logout user
+            // Refresh failed, logout user and redirect to login
             await useAuthStore.getState().logout();
+            // Only redirect if not already on login or signup page to prevent infinite loop
+            if (
+              typeof window !== 'undefined' &&
+              !window.location.pathname.includes('/sign-in') &&
+              !window.location.pathname.includes('/sign-up')
+            ) {
+              window.location.href = '/sign-in';
+            }
             return false;
           }
         } catch (error) {
-          console.error('refreshToken: Token refresh failed:', error);
+          console.log('refreshToken: Token refresh failed:', error);
           await useAuthStore.getState().logout();
+          // Only redirect if not already on login or signup page to prevent infinite loop
+          if (
+            typeof window !== 'undefined' &&
+            !window.location.pathname.includes('/sign-in') &&
+            !window.location.pathname.includes('/sign-up')
+          ) {
+            window.location.href = '/sign-in';
+          }
           return false;
         }
       },
 
       checkAuth: async () => {
+        // Don't check auth if we're on the sign-in or sign-up page to prevent infinite loops
+        if (
+          typeof window !== 'undefined' &&
+          (window.location.pathname.includes('/sign-in') ||
+            window.location.pathname.includes('/sign-up'))
+        ) {
+          set({ isLoading: false });
+          return;
+        }
+
         set({ isLoading: true, error: null });
 
         try {
@@ -154,10 +180,12 @@ export const useAuthStore = create<AuthStore>()(
             console.log('Access token expired, attempting refresh...');
             const refreshSuccess = await useAuthStore.getState().refreshToken();
             if (!refreshSuccess) {
+              // If refresh failed, the refreshToken function will handle redirect
+              // Just clear the state without showing error message
               set({
                 user: null,
                 isAuthenticated: false,
-                error: 'Session expired. Please log in again.',
+                error: null,
                 isLoading: false,
               });
             }
