@@ -14,7 +14,7 @@ export function WordConsole({
 }: WordDisplayProps) {
   const letters = word.toUpperCase().split('');
 
-  const getLetterClass = (letter: string, revealed: boolean) => {
+  const getLetterClass = (revealed: boolean) => {
     const baseClass =
       'w-12 h-12 md:w-14 md:h-14 border-b-4 flex items-center justify-center font-bold text-xl md:text-2xl transition-all duration-300 transform';
 
@@ -48,7 +48,7 @@ export function WordConsole({
           return (
             <div
               key={`${letter}-${index}`}
-              className={getLetterClass(letter, isRevealed)}
+              className={getLetterClass(isRevealed)}
               aria-label={
                 isRevealed ? `Letter ${letter}` : `Hidden letter ${index + 1}`
               }
