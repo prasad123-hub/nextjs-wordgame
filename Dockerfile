@@ -1,3 +1,5 @@
+# Build stage
+
 # Use the official Node.js 20 Alpine image as base
 FROM node:20-alpine AS base
 
@@ -21,6 +23,8 @@ ENV NODE_ENV=production
 
 # Build the application
 RUN pnpm build
+
+# --------------------------------------------------------------------------- #
 
 # Production stage
 FROM node:20-alpine AS runner

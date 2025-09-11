@@ -139,6 +139,11 @@ export async function GET(request: NextRequest) {
         ? ((stats[0]?.gamesWon || 0) / totalCompletedGames) * 100
         : 0;
 
+    console.log('stats', stats);
+    console.log('recentGames', recentGames);
+    console.log('gamesByWordLength', gamesByWordLength);
+    console.log('recentStats', recentStats);
+
     // Prepare response data
     const responseData = {
       user: {

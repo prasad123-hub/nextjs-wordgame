@@ -1,3 +1,16 @@
+/**
+ * Total Score = 180
+ * 1. Win Rate (100 points)
+ * 2. Total Games (50 points)
+ * 3. Efficiency Score (30 points)
+ *
+ * Win Rate = 100 * (Games Won / Total Games)
+ * Total Games Bonus = min(Total Games * 2, 50) - capped at 50
+ * Efficiency Score = max(0, 30 - (Average Wrong Guesses + Average Hints Used * 0.5) * 2)
+ * Total Score = Win Rate + Total Games Bonus + Efficiency Score
+ *
+ */
+
 import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import connectDB from '@/server/db/mongodb';
@@ -150,6 +163,7 @@ export async function GET(request: NextRequest) {
       {
         $unwind: '$userInfo',
       },
+
       // Project final structure
       {
         $project: {
@@ -175,6 +189,8 @@ export async function GET(request: NextRequest) {
         },
       },
     ]);
+
+    console.log('leaderboard', leaderboard);
 
     // Add rank to each entry
     const leaderboardWithRank = leaderboard.map((entry, index) => ({
